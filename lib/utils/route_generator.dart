@@ -1,0 +1,54 @@
+
+import 'package:flutter/material.dart';
+import 'package:tech_triva_quiz_app/screens/home_screen.dart';
+import 'package:tech_triva_quiz_app/screens/review_screen.dart';
+import 'package:tech_triva_quiz_app/screens/result_screen.dart';
+import 'package:tech_triva_quiz_app/screens/start_screen.dart' ;
+import 'package:tech_triva_quiz_app/screens/quiz_screen.dart' ;
+import 'package:tech_triva_quiz_app/screens/quizs/fluttter_screen.dart' ;
+import 'package:tech_triva_quiz_app/screens/quizs/reactnative_screen.dart' ;
+
+class RouteGenerator {
+  static const String initial = '/';
+  static const String home = '/home';
+  static const String result = '/result';
+  static const String quizdetail = '/quiz-detail';
+  static const String review = '/review';
+  static const String flutterQuiz = 'flutter-quiz';
+  static const String reactnativeQuiz = 'reactnative-quiz';
+
+
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case initial:
+        return MaterialPageRoute(builder: (_) => StartScreen());
+      case home:
+        return MaterialPageRoute(builder: (_) => HomeScreen());
+      case result:
+        return MaterialPageRoute(builder: (_) => ResultScreen());
+      case review:
+          return MaterialPageRoute(builder:(_)=> ReviewScreen());
+        case reactnativeQuiz:
+        return MaterialPageRoute(builder: (_) => ReactnativeScreen());
+        case flutterQuiz:
+          return MaterialPageRoute(builder:(_)=> FluttterScreen());
+    //   case quizdetail:
+    //     final  QuizScreen = settings.arguments as String;
+    //     return MaterialPageRoute(
+    //       builder: (_) =>  QuizScreen(quizdetail: postId),
+    //     );
+      default:
+        return _errorRoute();
+    }
+  }
+
+  // This method is outside the generateRoute method — at class level!
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(
+      builder: (_) => Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: const Center(child: Text('Page not found')),
+      ),
+    );
+  }
+}
