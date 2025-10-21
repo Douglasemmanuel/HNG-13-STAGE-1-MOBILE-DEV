@@ -5,8 +5,8 @@ import 'package:tech_triva_quiz_app/screens/review_screen.dart';
 import 'package:tech_triva_quiz_app/screens/result_screen.dart';
 import 'package:tech_triva_quiz_app/screens/start_screen.dart' ;
 import 'package:tech_triva_quiz_app/screens/quiz_screen.dart' ;
-import 'package:tech_triva_quiz_app/screens/quizs/fluttter_screen.dart' ;
-import 'package:tech_triva_quiz_app/screens/quizs/reactnative_screen.dart' ;
+import 'package:tech_triva_quiz_app/models/quiz_items_models.dart';
+
 
 class RouteGenerator {
   static const String initial = '/';
@@ -14,8 +14,7 @@ class RouteGenerator {
   static const String result = '/result';
   static const String quizdetail = '/quiz-detail';
   static const String review = '/review';
-  static const String flutterQuiz = 'flutter-quiz';
-  static const String reactnativeQuiz = 'reactnative-quiz';
+ 
 
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,15 +27,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ResultScreen());
       case review:
           return MaterialPageRoute(builder:(_)=> ReviewScreen());
-        case reactnativeQuiz:
-        return MaterialPageRoute(builder: (_) => ReactnativeScreen());
-        case flutterQuiz:
-          return MaterialPageRoute(builder:(_)=> FluttterScreen());
-    //   case quizdetail:
-    //     final  QuizScreen = settings.arguments as String;
-    //     return MaterialPageRoute(
-    //       builder: (_) =>  QuizScreen(quizdetail: postId),
-    //     );
+      case quizdetail:
+          final quiz = settings.arguments as QuizItem;
+        return MaterialPageRoute(builder: (_) => QuizScreen(quiz: quiz));
+       
+
       default:
         return _errorRoute();
     }

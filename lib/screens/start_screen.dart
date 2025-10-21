@@ -28,7 +28,7 @@ class StartScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
 
               // Responsive image
               Image.asset(
@@ -40,7 +40,7 @@ class StartScreen extends StatelessWidget {
                 colorBlendMode: BlendMode.srcATop,
               ),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 60),
               Text(
                 'Hi Start to begin Quiz',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -57,7 +57,7 @@ class StartScreen extends StatelessWidget {
                 
               },
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 10.0),
                 textStyle: const TextStyle(fontSize: 18),
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
@@ -74,12 +74,12 @@ class StartScreen extends StatelessWidget {
                     'Welcome' ,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(width: 50), 
-                  Icon(Icons.arrow_right_alt, size: 20),
+                  Icon(Icons.arrow_right_alt, size: 30),
                 ],
               ),
                 ),
