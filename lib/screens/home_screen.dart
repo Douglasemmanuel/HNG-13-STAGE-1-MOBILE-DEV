@@ -34,44 +34,47 @@ class HomeScreen extends StatelessWidget {
     ),
   ],
 ),
- body: SingleChildScrollView(
-           child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'welcome Back',
-                  style: TextStyle(
-                    fontSize: 38.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2.0,
-                  ),
-                  textAlign: TextAlign.left,
-                  ),
-                  SizedBox(height:5.0),
+ body: SafeArea(
+   child: SingleChildScrollView(
+             child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                  'what do yo want to improve today?',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                   textAlign: TextAlign.left,
-                  ),
-                   SizedBox(height:20.0),
-                  ...quizList.map((quiz) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: _quizcard(context, quiz),
-                  )),
-              ],
+                    'welcome Back',
+                    style: TextStyle(
+                      fontSize: 38.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2.0,
+                    ),
+                    textAlign: TextAlign.left,
+                    ),
+                    SizedBox(height:5.0),
+                    Text(
+                    'what do yo want to improve today?',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                     textAlign: TextAlign.left,
+                    ),
+                     SizedBox(height:10.0),
+                    ...quizList.map((quiz) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: _quizcard(context, quiz),
+                    )),
+                ],
+              ),
             ),
-          ),
-      ),
+        ),
+ ),
     );
   }
 
   Widget _quizcard(BuildContext context , QuizItem quiz){
     return Card(
+      margin: EdgeInsetsDirectional.symmetric(vertical: 10.0),
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(12),
@@ -111,12 +114,13 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 10),
                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisSize: MainAxisSize.min,
                 children: [
                    Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(
                           Icons.quiz,
@@ -150,7 +154,6 @@ class HomeScreen extends StatelessWidget {
                 ),
                       ],
                     ),
-
                   ],
                 ),
                 SizedBox(width: 20.0,),
