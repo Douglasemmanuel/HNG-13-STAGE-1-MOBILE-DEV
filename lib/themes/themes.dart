@@ -36,7 +36,7 @@ class AppTheme {
     ),
 
     // 📝 Text style
-    textTheme: GoogleFonts.poppinsTextTheme().copyWith(
+    textTheme: GoogleFonts.latoTextTheme().copyWith(
       bodyMedium: const TextStyle(color: Colors.black87),
       titleLarge: const TextStyle(
         color: Colors.black,

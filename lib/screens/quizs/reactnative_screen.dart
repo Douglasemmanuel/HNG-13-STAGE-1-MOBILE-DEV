@@ -5,8 +5,12 @@ class ReactnativeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return  Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
       child: Text('ReactNative'),
+    ),
+      ),
     );
   }
 }
