@@ -20,10 +20,10 @@ A clean and minimal **Flutter Quiz App** that lets users test their knowledge th
 
 ### 🖼 Screenshots
 
-<img src="assets/images/startquiz.jpeg" alt="Main Screen" width="200"/>
-<img src="assets/images/finish.jpeg" alt="Finish Quiz" width="200"/>
+<img src="assets/images/startquiz.jpeg" alt="Main Screen" width="400"/>
+<img src="assets/images/finish.jpeg" alt="Finish Quiz" width="400"/>
 
-<img src="assets/images/answer.jpeg" alt="Quiz Answer" width="200"/>
+<img src="assets/images/answer.jpeg" alt="Quiz Answer" width="400"/>
 ---
 
 ### 📦 Tech Stack
