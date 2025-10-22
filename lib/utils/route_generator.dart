@@ -24,7 +24,8 @@ class RouteGenerator {
       case home:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case result:
-        return MaterialPageRoute(builder: (_) => ResultScreen());
+        final quiz = settings.arguments as QuizItem;
+        return MaterialPageRoute(builder: (_) => ResultScreen(quiz: quiz));
       case review:
           return MaterialPageRoute(builder:(_)=> ReviewScreen());
       case quizdetail:

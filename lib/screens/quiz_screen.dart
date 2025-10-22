@@ -8,6 +8,7 @@ import 'package:tech_triva_quiz_app/components/next_button.dart' ;
 import 'package:tech_triva_quiz_app/utils/route_generator.dart' ;
 import 'package:tech_triva_quiz_app/providers/user_answer_provder.dart' ;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tech_triva_quiz_app/components/question_timmer.dart' ;
 import 'package:flutter_riverpod/legacy.dart';
 class QuizScreen extends ConsumerStatefulWidget {
   final QuizItem quiz;
@@ -24,6 +25,22 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
    String? selectedAnswer;
  // Store selected answers per question index
   Map<int, String> selectedAnswers = {};
+
+  final GlobalKey _timerKey = GlobalKey();
+
+  void _finishQuiz() {
+    // 🛑 Stop timer before navigating
+    (_timerKey.currentState as dynamic)?.stopTimer();
+      print('Hello');
+    // ✅ Navigate to result screen
+    Navigator.of(context, rootNavigator: true).pushNamed(
+      RouteGenerator.result,
+      arguments: questions.length,
+    );
+  }
+
+
+
 
   @override
   void initState() {
@@ -46,7 +63,10 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           content: Text("🎉 You've reached the end of the quiz!"),
         ),
       );
-       Navigator.of( context , rootNavigator: true).pushNamed(RouteGenerator.result) ;
+       Navigator.of( context , rootNavigator: true).pushNamed(
+        RouteGenerator.result ,
+         arguments: widget.quiz,
+        ) ;
     }
   }
   void _previousQuestion() {
@@ -66,6 +86,17 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        tooltip: 'Go Back',
+        onPressed: () {
+          // 🧹 Reset quiz answers when user goes back
+          ref.read(quizAnswersProvider.notifier).reset();
+
+          // 🔙 Navigate back
+          Navigator.of(context).pop();
+        },
+      ),
         title: Text(
           widget.quiz.title ,
           style: TextStyle(
@@ -73,6 +104,25 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
             fontWeight: FontWeight.bold,
           ),
           ),
+    actions: [
+    Padding(
+      padding: const EdgeInsets.only(right: 16.0),
+      child: QuizTimer(
+        key: _timerKey,
+        totalSeconds: widget.quiz.time * 60,
+        onTimeUp: () {
+          
+          // 🚨 When timer finishes
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("⏰ Time’s up!")),
+          );
+              Future.delayed(const Duration(seconds: 1), () {
+          _finishQuiz(); // ✅ Now only call this — it handles navigation
+        });
+        },
+      ),
+    ),
+  ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -110,25 +160,13 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                     currentQuestion.question,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.lato(
-                      color: Colors.black,
+                      // color: Colors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
 
-              //     SizedBox(height:30),
-              //  ...currentQuestion.options.map((option) {
-              //       final isSelected = selectedAnswer == option;
-              //       return AnswerButton(
-              //         answerText: option,
-              //         isSelected: isSelected,
-              //         onTap: () {
-              //           setState(() {
-              //              selectedAnswers[currentQuestionIndex] = option;
-              //           });
-              //         },
-              //       );
-              //     }),
+             
                           SizedBox(height: 30),
             ...currentQuestion.options.asMap().entries.map((entry) {
               final index = entry.key;

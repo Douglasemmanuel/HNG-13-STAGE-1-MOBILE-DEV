@@ -58,11 +58,11 @@ class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: const Color(0xFF121212),
-    primaryColor: Colors.amberAccent,
+    primaryColor: Colors.white,
 
     colorScheme: const ColorScheme.dark(
-      primary: Colors.amberAccent,
-      secondary: Colors.amber,
+      primary: Colors.white,
+      secondary: Colors.white,
       surface: Color(0xFF1E1E1E),
       onPrimary: Colors.black,
       onSecondary: Colors.black,
@@ -82,7 +82,7 @@ class AppTheme {
 
     // 🎨 Icon color
     iconTheme: const IconThemeData(
-      color: Colors.amberAccent,
+      color: Colors.white,
       size: 24,
     ),
 

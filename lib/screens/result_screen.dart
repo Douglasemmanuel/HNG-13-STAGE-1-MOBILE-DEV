@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tech_triva_quiz_app/models/quiz_question_models.dart';
 import 'package:tech_triva_quiz_app/utils/route_generator.dart' ;
 import 'package:tech_triva_quiz_app/providers/user_answer_provder.dart' ;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:tech_triva_quiz_app/models/quiz_items_models.dart';
 class ResultScreen extends ConsumerStatefulWidget {
-  const ResultScreen({super.key});
+  final QuizItem quiz;
+  const ResultScreen({super.key  , required this.quiz});
 
   @override
   ConsumerState<ResultScreen> createState() => _ResultScreenState();
 }
 
 class _ResultScreenState extends ConsumerState<ResultScreen> {
+   late final List<QuizQuestion> questions = widget.quiz.questions ;
   @override
   Widget build(BuildContext context) {
      final userAnswers = ref.read(quizAnswersProvider);
-      final int totalQuestions = userAnswers.length;
+      final int totalQuestions = questions.length ;
     final int correctAnswers =
         userAnswers.where((answer) => answer.isCorrect).length;
     final bool isGoodResult = correctAnswers  > (totalQuestions * 0.6);
@@ -30,6 +34,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
         RouteGenerator.home, 
         (route) => false,     
       );
+      ref.read(quizAnswersProvider.notifier).reset();
 
         },
       },
@@ -132,45 +137,41 @@ class _ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Convert string values to numbers safely
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     final double correct = double.tryParse(correctAnswers) ?? 0;
     final double total = double.tryParse(totalQuestions) ?? 1;
     final double percentage = (correct / total * 100).clamp(0, 100);
 
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Your Result",
-              style: TextStyle(
-                fontSize: 20,
+              style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               "$correctAnswers / $totalQuestions",
-              style: const TextStyle(
-                fontSize: 36,
+              style: textTheme.headlineMedium?.copyWith(
+                color: colorScheme.primary,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+                fontSize: 36,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               "${percentage.toStringAsFixed(1)}% Correct",
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+              style: textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
           ],
@@ -179,6 +180,8 @@ class _ResultCard extends StatelessWidget {
     );
   }
 }
+
+
 
 
 class _ResultActionButton extends StatelessWidget {
@@ -196,20 +199,18 @@ class _ResultActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: SizedBox(
-        width: double.infinity, // full width
+        width: double.infinity,
         child: ElevatedButton.icon(
           onPressed: onPressed,
-          icon: Icon(
-            icon,
-            color: Colors.white,
-          ),
+          icon: Icon(icon, color: Colors.white),
           label: Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
+            style: textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

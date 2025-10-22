@@ -33,8 +33,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           content: Text("🎉 You've reached the end of the review!"),
         ),
       );
-      Navigator.of(context, rootNavigator: true)
-          .pushNamed(RouteGenerator.result);
+      
     }
   }
   void _previousQuestion() {
@@ -61,31 +60,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 
     final currentAnswer = userAnswers[currentQuestionIndex];
     final currentQuestion = currentAnswer.question;
-//   final userAnswers = ref.watch(quizAnswersProvider);
-//     final currentQuestion = questions[currentQuestionIndex];
-// // Try to find the answer for the current question
-//  UserAnsweredQuestion? userAnswer;
-// try {
-//   userAnswer = userAnswers.firstWhere(
-//     (a) => a.question.question == currentQuestion.question,
-//   );
-// } catch (e) {
-//   userAnswer = null;
-// }
 
-
-// final bool answered = userAnswer != null;
-// final int? selectedIndex = userAnswer?.selectedOptionIndex;
-// final int correctIndex = currentQuestion.question.correctAnswerIndex;
-
-//     if (userAnswers.isEmpty) {
-//       return const Center(
-//         child: Text(
-//           "No answers yet 🕵️‍♂️",
-//           style: TextStyle(fontSize: 16, color: Colors.grey),
-//         ),
-//       );
-//     }
     return Scaffold(
        appBar: AppBar(
         centerTitle: true,
@@ -132,7 +107,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                     currentQuestion.question,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.lato(
-                      color: Colors.black,
+                      // color: Colors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -196,14 +171,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               ? null
               : Icons.arrow_forward,
           iconBeforeText: false,
-          isEnabled: true, // ✅ always enabled now
-          onPressed: currentQuestionIndex == userAnswers.length - 1
-              ? () {
-                  // Navigate to result screen
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed(RouteGenerator.result);
-                }
-              : _nextQuestion,
+          isEnabled: currentQuestionIndex < userAnswers.length - 1, 
+          onPressed: currentQuestionIndex < userAnswers.length - 1
+              ?
+               _nextQuestion
+              : null,
         ),
       ),
     ],

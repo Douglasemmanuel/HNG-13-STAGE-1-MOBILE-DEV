@@ -8,7 +8,8 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size; // for responsive sizing
-
+    final colorScheme = Theme.of(context).colorScheme; // ✅ use theme colors
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -25,12 +26,13 @@ class StartScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 30.0,
+                          color: colorScheme.primary,
                           // foreground: Colors.blueAccent ,
                         ),
                     textAlign: TextAlign.center,
                   ),
           
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 40),
           
                   // Responsive image
                   Image.asset(
@@ -38,21 +40,22 @@ class StartScreen extends StatelessWidget {
                     width: size.width * 0.8,
                     height: size.height * 0.4,
                     fit: BoxFit.contain,
-                     color: Colors.deepPurple.withOpacity(0.2), 
+                     color: colorScheme.primary.withOpacity(0.2), 
                     colorBlendMode: BlendMode.srcATop,
                   ),
           
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 100),
                   Text(
                     'Hi Start to begin Quiz',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.w500,
                           fontSize: 20.0,
+                          color: colorScheme.onSurface,
                         ),
                     textAlign: TextAlign.center,
                   
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                  ElevatedButton(
                   onPressed: () {
                     Navigator.of( context , rootNavigator: true).pushNamed(RouteGenerator.home) ;
