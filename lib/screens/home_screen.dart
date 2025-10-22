@@ -72,131 +72,109 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _quizcard(BuildContext context , QuizItem quiz){
-    return Card(
-      margin: EdgeInsetsDirectional.symmetric(vertical: 10.0),
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-          children: [
-            Image.asset(
-                quiz.image,
-                width: 100,
-                height: 60,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(width: 5.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+Widget _quizcard(BuildContext context, QuizItem quiz) {
+  return Card(
+    margin: const EdgeInsets.symmetric(vertical: 10.0),
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          Image.asset(
+            quiz.image,
+            width: 100,
+            height: 60,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(width: 10.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   quiz.title,
-                  style:TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                   quiz.description,
-                  style:  TextStyle(
+                  quiz.description,
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.black54,
                   ),
                 ),
-                SizedBox(height: 10),
-               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                   Row(
+                const SizedBox(height: 10),
+
+                // ✅ This Row now spaces evenly between question, time, and button
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:[
+                  children: [
+                    // Question info
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.quiz,
-                          size: 16.0,
-                        ),
-                          SizedBox(width: 10),
+                        const Icon(Icons.quiz, size: 16.0),
+                        const SizedBox(width: 5),
                         Text(
-                        '${quiz.totalQuestions.toString()} Questions',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                  ),
-                ),
+                          '${quiz.totalQuestions} Questions',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
                       ],
                     ),
-                SizedBox(width: 14.0,),
-                Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+
+                    // Time info
+                    Row(
                       children: [
-                        Icon(
-                          Icons.timer,
-                          size: 16.0,
-                        ),
-                          SizedBox(width: 10),
+                        const Icon(Icons.timer, size: 16.0),
+                        const SizedBox(width: 5),
                         Text(
-                        '${quiz.time.toString()} Mins',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                  ),
-                ),
+                          '${quiz.time} Mins',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
                       ],
+                    ),
+
+                    // Elevated button
+                    ElevatedButton(
+                      onPressed: () {
+                        print('Navigating to ${quiz.route} with ${quiz.title}');
+                        Navigator.of(context, rootNavigator: true).pushNamed(
+                          RouteGenerator.quizdetail,
+                          arguments: quiz,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: const Icon(Icons.arrow_right, size: 28),
                     ),
                   ],
                 ),
-                SizedBox(width: 20.0,),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ElevatedButton(
-                      onPressed: () {
-                        print('Navigating to ${quiz.route} with ${quiz.title}');
-                         Navigator.of( 
-                          context , 
-                          rootNavigator: true).pushNamed(
-                            RouteGenerator.quizdetail ,  
-                            arguments: quiz,) ;
-                           },
-                      style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                            textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        // label: label,
-                        child:  const Icon(
-                          Icons.arrow_right , size: 38,),
-                        ),
-                    ],
-                  ),
-                  ),
-                ],
-               ),
               ],
-                ),
-                ),
-          ],
-        
-        ),
+            ),
+          ),
+        ],
       ),
-    );
+    ),
+  );
+}
 
-  }
 }
 

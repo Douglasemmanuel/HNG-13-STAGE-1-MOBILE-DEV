@@ -6,16 +6,19 @@ import 'package:tech_triva_quiz_app/components/progress_bar.dart' ;
 import 'package:tech_triva_quiz_app/components/answer_button.dart' ;
 import 'package:tech_triva_quiz_app/components/next_button.dart' ;
 import 'package:tech_triva_quiz_app/utils/route_generator.dart' ;
-class QuizScreen extends StatefulWidget {
+import 'package:tech_triva_quiz_app/providers/user_answer_provder.dart' ;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+class QuizScreen extends ConsumerStatefulWidget {
   final QuizItem quiz;
 
   const QuizScreen({super.key, required this.quiz});
 
   @override
-  State<QuizScreen> createState() => _QuizScreenState();
+  ConsumerState<QuizScreen> createState() => _QuizScreenState();
 }
 
-class _QuizScreenState extends State<QuizScreen> {
+class _QuizScreenState extends ConsumerState<QuizScreen> {
   int currentQuestionIndex = 0;
   late final List<QuizQuestion> questions;
    String? selectedAnswer;
@@ -46,12 +49,20 @@ class _QuizScreenState extends State<QuizScreen> {
        Navigator.of( context , rootNavigator: true).pushNamed(RouteGenerator.result) ;
     }
   }
+  void _previousQuestion() {
+  setState(() {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      selectedAnswer = null;
+    }
+  });
+}
 
   @override
   Widget build(BuildContext context) {
     final currentQuestion = questions[currentQuestionIndex];
      final selectedAnswer = selectedAnswers[currentQuestionIndex];
-
+  
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -104,29 +115,78 @@ class _QuizScreenState extends State<QuizScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height:30),
-               ...currentQuestion.options.map((option) {
-                    final isSelected = selectedAnswer == option;
-                    return AnswerButton(
-                      answerText: option,
-                      isSelected: isSelected,
-                      onTap: () {
-                        setState(() {
-                           selectedAnswers[currentQuestionIndex] = option;
-                        });
-                      },
-                    );
-                  }),
-                  Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: PrimaryButton(
-                  text: currentQuestionIndex == questions.length - 1
-                      ? "Finish Quiz"
-                      : "Next Question",
-                  isEnabled: selectedAnswer != null,
-                  onPressed: selectedAnswer != null ? _nextQuestion : null,
-                ),
-              ),
+
+              //     SizedBox(height:30),
+              //  ...currentQuestion.options.map((option) {
+              //       final isSelected = selectedAnswer == option;
+              //       return AnswerButton(
+              //         answerText: option,
+              //         isSelected: isSelected,
+              //         onTap: () {
+              //           setState(() {
+              //              selectedAnswers[currentQuestionIndex] = option;
+              //           });
+              //         },
+              //       );
+              //     }),
+                          SizedBox(height: 30),
+            ...currentQuestion.options.asMap().entries.map((entry) {
+              final index = entry.key;
+              final option = entry.value;
+              final isSelected = selectedAnswer == option;
+
+              return AnswerButton(
+                answerText: option,
+                isSelected: isSelected,
+                onTap: () {
+                  setState(() {
+                    selectedAnswers[currentQuestionIndex] = option;
+                  });
+
+                  // ✅ Update provider
+                  ref
+                      .read(quizAnswersProvider.notifier)
+                      .addAnswer(currentQuestion, index);
+                },
+              );
+            }),
+
+           Padding(
+  padding: const EdgeInsets.all(16.0),
+  child: Row(
+     mainAxisAlignment: MainAxisAlignment.center,
+  mainAxisSize: MainAxisSize.min,
+    children: [
+      // Previous Question Button (arrow before text)
+      Expanded(
+        child: PrimaryButton(
+          text: "Previous Question",
+          icon: Icons.arrow_back,
+          iconBeforeText: true,
+          isEnabled: currentQuestionIndex > 0,
+          onPressed: currentQuestionIndex > 0 ? _previousQuestion : null,
+        ),
+      ),
+      const SizedBox(width: 12),
+      // Next / Finish Button (arrow after text)
+      Expanded(
+        child: PrimaryButton(
+          text: currentQuestionIndex == questions.length - 1
+              ? "Finish Quiz"
+              : "Next Question",
+          icon: currentQuestionIndex == questions.length - 1
+              ? null
+              : Icons.arrow_forward,
+          iconBeforeText: false,
+          isEnabled: selectedAnswer != null,
+          onPressed: selectedAnswer != null ? _nextQuestion : null,
+        ),
+      ),
+    ],
+  ),
+)
+
+
                 ],
               ),
             ),
