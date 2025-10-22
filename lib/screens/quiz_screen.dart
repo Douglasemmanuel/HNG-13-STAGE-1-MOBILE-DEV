@@ -32,14 +32,46 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     // 🛑 Stop timer before navigating
     (_timerKey.currentState as dynamic)?.stopTimer();
       print('Hello');
-    // ✅ Navigate to result screen
-    Navigator.of(context, rootNavigator: true).pushNamed(
+      Navigator.of(context, rootNavigator: true).pushNamed(
       RouteGenerator.result,
-      arguments: questions.length,
+      arguments: widget.quiz,
     );
+   
   }
 
+/// Safely restart the QuizTimer by calling its exposed restart method if available,
+/// or falling back to stop/start if restart isn't present.
+void _restartTimer() {
+  final timerState = _timerKey.currentState;
+  if (timerState == null) return;
 
+  // Prefer a direct restart if the timer exposes it.
+  try {
+    (timerState as dynamic)?.restartTimer();
+  } catch (_) {
+    // Fallback: try stop/start if restart isn't available.
+    try {
+      (timerState as dynamic)?.stopTimer();
+    } catch (_) {}
+    try {
+      (timerState as dynamic)?.startTimer();
+    } catch (_) {}
+  }
+}
+
+void _handleTimeout() {
+  if (currentQuestionIndex < questions.length - 1) {
+    setState(() {
+      currentQuestionIndex++;
+    });
+
+    // Restart the timer for the next question via the helper.
+    _restartTimer();
+  } else {
+    _finishQuiz();
+  }
+}
+   
 
 
   @override
@@ -53,22 +85,23 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
   }
 
   void _nextQuestion() {
-    if (currentQuestionIndex < questions.length - 1) {
-      setState(() {
-        currentQuestionIndex++;
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("🎉 You've reached the end of the quiz!"),
-        ),
-      );
-       Navigator.of( context , rootNavigator: true).pushNamed(
-        RouteGenerator.result ,
-         arguments: widget.quiz,
-        ) ;
+  final hasAnswered = selectedAnswer != null;
+
+  if (currentQuestionIndex < questions.length - 1) {
+    setState(() {
+      currentQuestionIndex++;
+      selectedAnswer = null;
+    });
+
+    if (!hasAnswered) {
+      _restartTimer() ;
     }
+  } else {
+    _finishQuiz();
+    
   }
+}
+
   void _previousQuestion() {
   setState(() {
     if (currentQuestionIndex > 0) {
@@ -109,15 +142,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       padding: const EdgeInsets.only(right: 16.0),
       child: QuizTimer(
         key: _timerKey,
-        totalSeconds: widget.quiz.time * 60,
+        totalSeconds: 60,
         onTimeUp: () {
           
           // 🚨 When timer finishes
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("⏰ Time’s up!")),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(content: Text("⏰ Time’s up!")),
+          // );
               Future.delayed(const Duration(seconds: 1), () {
-          _finishQuiz(); // ✅ Now only call this — it handles navigation
+          _handleTimeout(); // ✅ Now only call this — it handles navigation
         });
         },
       ),
