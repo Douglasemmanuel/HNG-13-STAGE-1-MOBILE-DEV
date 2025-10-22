@@ -1,12 +1,9 @@
-# tecSure! Here's a **professional, clean, and informative GitHub README** template for your **Flutter Quiz App**. This version assumes your app is a timed quiz app with multiple-choice questions — you can customize the details as needed.
 
----
 
 ## 📱 Quiz App
 
 A clean and minimal **Flutter Quiz App** that lets users test their knowledge through timed multiple-choice questions. Built with modern Flutter practices and designed with a responsive, user-friendly interface.
 
-![quiz-app-banner](https://via.placeholder.com/1200x400?text=Flutter+Quiz+App) <sub>*Replace with a real screenshot or banner*</sub>
 
 ---
 
@@ -23,10 +20,10 @@ A clean and minimal **Flutter Quiz App** that lets users test their knowledge th
 
 ### 🖼 Screenshots
 
-<img src="assets/images/startquiz.jpeg" alt="Main Screen" width="100"/>
-<img src="assets/images/finish.jpeg" alt="Finish Quiz" width="100"/>
+<img src="assets/images/startquiz.jpeg" alt="Main Screen" width="200"/>
+<img src="assets/images/finish.jpeg" alt="Finish Quiz" width="200"/>
 
-<img src="assets/images/answer.jpeg" alt="Quiz Answer" width="100"/>
+<img src="assets/images/answer.jpeg" alt="Quiz Answer" width="200"/>
 ---
 
 ### 📦 Tech Stack
