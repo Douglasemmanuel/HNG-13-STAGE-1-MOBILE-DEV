@@ -4,7 +4,6 @@ import 'package:tech_triva_quiz_app/models/quiz_question_models.dart';
 import 'package:tech_triva_quiz_app/utils/route_generator.dart' ;
 import 'package:tech_triva_quiz_app/providers/user_answer_provder.dart' ;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:tech_triva_quiz_app/models/quiz_items_models.dart';
 class ResultScreen extends ConsumerStatefulWidget {
   final QuizItem quiz;

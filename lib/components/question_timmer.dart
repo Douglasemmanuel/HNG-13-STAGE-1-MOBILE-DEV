@@ -106,7 +106,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tech_triva_quiz_app/themes/themes.dart';
 
 class QuizTimer extends StatefulWidget {
   final int totalSeconds; // ⏱ Duration passed from QuizScreen

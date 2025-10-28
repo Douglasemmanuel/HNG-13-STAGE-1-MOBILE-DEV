@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:tech_triva_quiz_app/models/quiz_question_models.dart';
 class QuizItem {
   final String title;

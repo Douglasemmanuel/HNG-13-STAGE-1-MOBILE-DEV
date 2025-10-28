@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tech_triva_quiz_app/models/quiz_items_models.dart';
-import 'package:tech_triva_quiz_app/models/quiz_question_models.dart';
 import 'package:tech_triva_quiz_app/models/user_answered_question_models.dart' ;
 import 'package:tech_triva_quiz_app/components/progress_bar.dart' ;
 import 'package:tech_triva_quiz_app/components/answer_button.dart' ;
 import 'package:tech_triva_quiz_app/components/next_button.dart' ;
-import 'package:tech_triva_quiz_app/utils/route_generator.dart' ;
 import 'package:tech_triva_quiz_app/providers/user_answer_provder.dart' ;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 class ReviewScreen extends ConsumerStatefulWidget{
   const ReviewScreen({super.key});
 

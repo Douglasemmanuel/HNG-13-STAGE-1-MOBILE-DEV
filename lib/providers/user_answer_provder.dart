@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:tech_triva_quiz_app/models/quiz_question_models.dart' ;
 import 'package:tech_triva_quiz_app/models/user_answered_question_models.dart' ;

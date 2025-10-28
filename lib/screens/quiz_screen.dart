@@ -9,7 +9,6 @@ import 'package:tech_triva_quiz_app/utils/route_generator.dart' ;
 import 'package:tech_triva_quiz_app/providers/user_answer_provder.dart' ;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_triva_quiz_app/components/question_timmer.dart' ;
-import 'package:flutter_riverpod/legacy.dart';
 class QuizScreen extends ConsumerStatefulWidget {
   final QuizItem quiz;
 
